@@ -45,9 +45,16 @@ class Recipe(object):
         from zc.recipe.egg import Scripts
         options['eggs'] = 'virtualenv'
         options['scripts'] = 'tox'
-        options['entry-points'] = 'tox=os:execv'
+        options['entry-points'] = 'tox=os:execve'
         options['arguments'] = (
-                '%(tox)r, [%(tox)r] + sys.argv[1:]') % dict(tox=tox)
+                '%(tox)r, [%(tox)r] + sys.argv[1:], os.environ'
+              ) % dict(tox=tox)
+        options['initialization'] = '\n'.join([
+                'import os',
+                "os.environ['PYTHONPATH'] = ''",
+                "os.environ['PIP_DOWNLOAD_CACHE'] = %r" % join(install_dir,
+                                                               '_download')
+            ])
         script = Scripts(self.buildout, self.name, self.options)
         script.install()
         return tuple()
