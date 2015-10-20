@@ -58,8 +58,6 @@ class Recipe(object):
         options['initialization'] = '\n'.join([
                 'import os',
                 "os.environ['PYTHONPATH'] = ''",
-                "os.environ['PIP_DOWNLOAD_CACHE'] = %r" % join(install_dir,
-                                                               '_download')
             ])
         script = Scripts(self.buildout, self.name, self.options)
         script.install()
