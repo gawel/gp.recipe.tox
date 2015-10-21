@@ -35,12 +35,18 @@ class Recipe(object):
 
         tox = join(bin_bir, 'tox')
         if not os.path.isfile(tox):
-            import virtualenv
-            subprocess.call([sys.executable, virtualenv.__file__[:-1],
-                             '-q', '--distribute', install_dir], env=env)
-            del env['PYTHONPATH']
-            subprocess.call([join(bin_bir, 'easy_install'), 'tox'],
-                            env=env)
+            if sys.version_info[:2] >= (3,4):
+                import venv
+                venv.create(install_dir, with_pip=True)
+                del env['PYTHONPATH']
+                subprocess.call([join(bin_bir, 'pip'), 'install', 'tox'], env=env)
+            else:
+                import virtualenv
+                subprocess.call([sys.executable, virtualenv.__file__[:-1],
+                                '-q', '--distribute', install_dir], env=env)
+                del env['PYTHONPATH']
+                subprocess.call([join(bin_bir, 'easy_install'), 'tox'],
+                                env=env)
 
         from zc.recipe.egg import Scripts
         options['eggs'] = 'virtualenv'
@@ -52,8 +58,6 @@ class Recipe(object):
         options['initialization'] = '\n'.join([
                 'import os',
                 "os.environ['PYTHONPATH'] = ''",
-                "os.environ['PIP_DOWNLOAD_CACHE'] = %r" % join(install_dir,
-                                                               '_download')
             ])
         script = Scripts(self.buildout, self.name, self.options)
         script.install()
