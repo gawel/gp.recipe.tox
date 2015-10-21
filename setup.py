@@ -9,7 +9,7 @@ import os
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '0.4.dev0'
+version = '0.4'
 
 entry_point = 'gp.recipe.tox:Recipe'
 entry_points = {"zc.buildout": ["default = %s" % entry_point]}
