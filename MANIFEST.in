@@ -1,0 +1,8 @@
+include *.py
+include *.txt
+include buildout.cfg
+include tox.ini
+recursive-include docs *.GPL
+recursive-include docs *.ZPL
+recursive-include docs *.txt
+recursive-include gp *.txt
