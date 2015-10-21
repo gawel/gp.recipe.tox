@@ -3,20 +3,13 @@
 This module contains the tool of gp.recipe.tox
 """
 from setuptools import setup, find_packages
+import os
 
 
-def read(name):
-    try:
-        return open(name).read()
-    except:
-        return ''
+def read(*rnames):
+    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '0.1'
-
-long_description = (
-    read('README.rst')
-    + '\n' +
-    read('CHANGES.txt'))
+version = '0.4.dev0'
 
 entry_point = 'gp.recipe.tox:Recipe'
 entry_points = {"zc.buildout": ["default = %s" % entry_point]}
@@ -26,7 +19,7 @@ tests_require = ['zope.testing', 'zc.buildout']
 setup(name='gp.recipe.tox',
       version=version,
       description="use buildout with tox",
-      long_description=long_description,
+      long_description=read('README.rst'),
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[

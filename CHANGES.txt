@@ -1,7 +1,5 @@
-Changelog
-=========
 
-0.1
-----
+0.4 (unreleased)
+=================
 
-- first public release
+add python 3.4 / 3.5 compatibility
